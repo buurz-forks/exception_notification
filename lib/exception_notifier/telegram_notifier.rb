@@ -1,3 +1,5 @@
+require 'telegram/bot'
+
 module ExceptionNotifier
   class TelegramNotifier < BaseNotifier
     include ExceptionNotifier::BacktraceCleaner
@@ -10,7 +12,7 @@ module ExceptionNotifier
       begin
         bot_token   = options.delete(:bot_token)
         @channel_id = options.delete(:channel_id)
-        @bot        = Telegram::Bot::Client.new(bot_token)
+        @bot        = ::Telegram::Bot::Client.new(bot_token)
       rescue
         @bot = nil
       end
@@ -21,12 +23,12 @@ module ExceptionNotifier
 
       message =
         if options[:accumulated_errors_count].to_i > 1
-          "The exception occurred #{options[:accumulated_errors_count]} times: '#{exception.message}'"
+          "=== The exception occurred #{options[:accumulated_errors_count]} times: '#{exception.message}'"
         else
-          "A new exception occurred: '#{exception.message}'"
+          "=== A new exception occurred: \n\n #{exception.message}"
         end
 
-      message += " on '#{exception.backtrace.first}'" if exception.backtrace
+      message += "=== Backtrace: \n\n #{exception.backtrace.first}" if exception.backtrace
       send_notice(exception, options, message) do |msg, _|
         bot.api.send_message(chat_id: channel_id, text: msg)
       end
