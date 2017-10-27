@@ -50,4 +50,11 @@ ExceptionNotification.configure do |config|
   #   :http_method => :post
   # }
 
+  # Telegram notifier sends notifications to your Telegram channel. Requires 'telegram-bot-ruby' gem.
+  # Do not forget add bot as admin in your channel.
+  # config.add_notifier :telegram, {
+  #   :channel_id => 'my_channel',
+  #   :bot_token => 'my_token'
+  # }
+
 end
