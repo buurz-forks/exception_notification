@@ -25,7 +25,7 @@ module ExceptionNotifier
         if options[:accumulated_errors_count].to_i > 1
           "=== The exception occurred #{options[:accumulated_errors_count]} times: '#{exception.message}'"
         else
-          "=== A new exception occurred: \n\n #{exception.message}"
+          "=== A new exception occurred: \n\n #{exception.message} \n\n"
         end
 
       message += "=== Backtrace: \n\n #{exception.backtrace.first}" if exception.backtrace
