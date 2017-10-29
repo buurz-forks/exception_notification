@@ -91,6 +91,7 @@ ExceptionNotification relies on notifiers to deliver notifications when errors o
 * [Slack notifier](#slack-notifier)
 * [Mattermost notifier](#mattermost-notifier)
 * [WebHook notifier](#webhook-notifier)
+* [Telegram notifier](#telegram-notifier)
 
 But, you also can easily implement your own [custom notifier](#custom-notifier).
 
@@ -784,6 +785,49 @@ Rails.application.config.middleware.use ExceptionNotification::Rack,
 ```
 
 For more HTTParty options, check out the [documentation](https://github.com/jnunemaker/httparty).
+
+
+### Telegram notifier
+
+This notifier sends notifications to your Telegram channel.
+
+#### Usage
+
+Just add the [telegram-bot-ruby](https://github.com/atipugin/telegram-bot-ruby) gem to your `Gemfile`:
+
+```ruby
+gem 'telegram-bot-ruby'
+```
+
+To configure it, you need to set the `channel_id`, `bot_token` options, like this:
+
+```ruby
+Rails.application.config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :email_prefix => "[PREFIX] ",
+    :sender_address => %{"notifier" <notifier@example.com>},
+    :exception_recipients => %w{exceptions@example.com}
+  },
+  :telegram => {
+    :channel_id => 'my_channel',
+    :bot_token => 'my_token'
+  }
+```
+
+#### Options
+
+##### my_channel
+
+*String, required*
+
+Your channel id or name(@my_channel) at Telegram.
+
+##### bot_token
+
+*String, required*
+
+The API bot token to allow access to your Telegram channel.
+Do not forget add bot as admin in your channel.
 
 ### Custom notifier
 
